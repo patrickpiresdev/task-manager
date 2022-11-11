@@ -8,8 +8,7 @@ A ideia deste projeto é ser uma aplicação para gerenciar tarefas!
 
 A tarefa consiste em criar um sistema somente com uma API Restful para resolver a história abaixo:
 
-> "Como um usuário, eu quero ter a possibilidade de listar, cadastrar, exibir,
-atualizar, deletar e concluir minhas tarefas."
+> "Como um usuário, eu quero ter a possibilidade de listar, cadastrar, exibir, atualizar, deletar e concluir minhas tarefas."
 
 ### Esperado
 
