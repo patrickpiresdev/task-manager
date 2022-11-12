@@ -1,5 +1,7 @@
-package com.ptk.task_manager;
+package com.ptk.task_manager.config;
 
+import com.ptk.task_manager.entities.User;
+import com.ptk.task_manager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

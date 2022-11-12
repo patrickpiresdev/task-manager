@@ -1,5 +1,6 @@
-package com.ptk.task_manager;
+package com.ptk.task_manager.repositories;
 
+import com.ptk.task_manager.entities.User;
 import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Component;
 

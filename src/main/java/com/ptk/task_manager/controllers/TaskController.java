@@ -1,5 +1,6 @@
-package com.ptk.task_manager;
+package com.ptk.task_manager.controllers;
 
+import com.ptk.task_manager.entities.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

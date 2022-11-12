@@ -1,4 +1,4 @@
-package com.ptk.task_manager;
+package com.ptk.task_manager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
