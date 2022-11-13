@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,8 +38,9 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskDto> list() {
-        return taskRepository.findAll().stream()
+    public List<TaskDto> list(@AuthenticationPrincipal UserDetails userDetails) {
+        return taskRepository.findAllByOwner_username(userDetails.getUsername())
+                .stream()
                 .map(this::taskDtoFrom)
                 .collect(Collectors.toList());
     }
@@ -53,30 +55,51 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task show(@PathVariable long id) {
-        return taskRepository.findById(id);
+    public TaskDto show(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Optional<Task> task = taskRepository.findById(id);
+
+        // todo: handle exception returning the correct answer to the client
+        if (!task.isPresent() || !task.get().getOwnerUsername().equals(userDetails.getUsername()))
+            throw new TaskNotFoundException();
+
+        return taskDtoFrom(task.get());
     }
 
     @PutMapping
-    public void update(@RequestBody TaskDto taskDto) {
+    public void update(@RequestBody TaskDto taskDto, @AuthenticationPrincipal UserDetails userDetails) {
+        Optional<Task> task = taskRepository.findById(taskDto.id);
+
+        // todo: handle exception returning the correct answer to the client
+        if (!task.isPresent() || !task.get().getOwnerUsername().equals(userDetails.getUsername()))
+            throw new TaskNotFoundException();
+
         // todo: create a mapper
-        Task taskToUpdate = taskRepository.findById(taskDto.id);
-        taskToUpdate.setLabel(taskDto.label);
-        taskToUpdate.setDescription(taskDto.description);
-        taskToUpdate.setDone(taskDto.done);
-        taskRepository.save(taskToUpdate);
+        task.get().setLabel(taskDto.label);
+        task.get().setDescription(taskDto.description);
+        task.get().setDone(taskDto.done);
+
+        taskRepository.save(task.get());
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Optional<Task> task = taskRepository.findById(id);
+
+        // todo: handle exception returning the correct answer to the client
+        if (!task.isPresent() || !task.get().getOwnerUsername().equals(userDetails.getUsername()))
+            throw new TaskNotFoundException();
+
         taskRepository.deleteById(id);
     }
 
     @PutMapping("/{id}/complete")
     public void complete(@PathVariable int id) {
-        // todo: handle exception when task == null
-        Task task = taskRepository.findById(id);
-        task.complete();
-        taskRepository.save(task);
+        Optional<Task> task = taskRepository.findById(id);
+
+        // todo: handle exception returning the correct answer to the client
+        if (!task.isPresent()) throw new TaskNotFoundException();
+
+        task.get().complete();
+        taskRepository.save(task.get());
     }
 }

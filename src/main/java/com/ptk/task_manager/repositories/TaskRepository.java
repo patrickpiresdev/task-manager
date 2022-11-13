@@ -4,15 +4,13 @@ import com.ptk.task_manager.entities.Task;
 import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public interface TaskRepository extends Repository<Task, Long> {
     void save(Task task);
-
-    List<Task> findAll();
-
-    Task findById(long id);
-
+    Optional<Task> findById(long id);
     void deleteById(long id);
+    Collection<Task> findAllByOwner_username(String username);
 }

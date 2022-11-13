@@ -33,10 +33,6 @@ public class Task {
         this.owner = owner;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public long getId() {
         return id;
     }
@@ -67,5 +63,9 @@ public class Task {
 
     public void complete() {
         done = true;
+    }
+
+    public String getOwnerUsername() {
+        return this.owner.getUsername();
     }
 }
