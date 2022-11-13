@@ -1,7 +1,7 @@
 package com.ptk.task_manager.controllers;
 
-import com.ptk.task_manager.entities.User;
 import com.ptk.task_manager.dtos.UserDto;
+import com.ptk.task_manager.entities.User;
 import com.ptk.task_manager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
