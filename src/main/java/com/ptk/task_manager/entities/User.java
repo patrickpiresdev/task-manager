@@ -13,12 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
-    @Id
-    @Column
-    private String username;
-
-    @Column
+    @Id private String username;
     private String password;
 
     public User() {}
