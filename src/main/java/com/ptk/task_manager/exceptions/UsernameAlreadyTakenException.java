@@ -1,6 +1,5 @@
-package com.ptk.task_manager.controllers;
+package com.ptk.task_manager.exceptions;
 
-// todo: create proper package for exceptions
 public class UsernameAlreadyTakenException extends RuntimeException {
     public UsernameAlreadyTakenException(String message) {
         super(message);
