@@ -1,9 +1,9 @@
 package com.ptk.task_manager.services;
 
-import com.ptk.task_manager.controllers.TaskNotFoundException;
 import com.ptk.task_manager.dtos.TaskDto;
 import com.ptk.task_manager.entities.Task;
 import com.ptk.task_manager.entities.User;
+import com.ptk.task_manager.exceptions.TaskNotFoundException;
 import com.ptk.task_manager.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

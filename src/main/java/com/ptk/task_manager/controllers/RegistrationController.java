@@ -2,6 +2,7 @@ package com.ptk.task_manager.controllers;
 
 import com.ptk.task_manager.dtos.UserDto;
 import com.ptk.task_manager.entities.User;
+import com.ptk.task_manager.exceptions.UsernameAlreadyTakenException;
 import com.ptk.task_manager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@Valid @RequestBody UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public ResponseEntity<Object> register(@Valid @RequestBody UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
         try {
             registerUser(userDto, bCryptPasswordEncoder);
             return ResponseEntity.ok().build();
