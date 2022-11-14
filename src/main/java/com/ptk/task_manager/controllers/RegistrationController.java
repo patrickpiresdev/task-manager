@@ -39,11 +39,11 @@ public class RegistrationController {
     }
 
     private void registerUser(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        Optional<User> user = userRepository.findByUsername(userDto.username);
+        Optional<User> user = userRepository.findByUsername(userDto.getUsername());
         if (user.isPresent())
-            throw new UsernameAlreadyTakenException("Username '" + userDto.username + "' is already taken!");
+            throw new UsernameAlreadyTakenException("Username '" + userDto.getUsername() + "' is already taken!");
         userRepository.save(
-                new User(userDto.username, bCryptPasswordEncoder.encode(userDto.password))
+                new User(userDto.getUsername(), bCryptPasswordEncoder.encode(userDto.getPassword()))
         );
     }
 }
