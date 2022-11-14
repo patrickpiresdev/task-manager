@@ -4,6 +4,7 @@ import com.ptk.task_manager.dtos.UserDto;
 import com.ptk.task_manager.entities.User;
 import com.ptk.task_manager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -23,8 +25,23 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public void register(@Valid @RequestBody UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        // todo: check if user already exists
+    public ResponseEntity register(@Valid @RequestBody UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        try {
+            registerUser(userDto, bCryptPasswordEncoder);
+            return ResponseEntity.ok().build();
+        } catch (UsernameAlreadyTakenException ex) {
+            System.out.println(ex.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    private void registerUser(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        Optional<User> user = userRepository.findByUsername(userDto.username);
+        if (user.isPresent())
+            throw new UsernameAlreadyTakenException("Username '" + userDto.username + "' is already taken!");
         userRepository.save(
                 new User(userDto.username, bCryptPasswordEncoder.encode(userDto.password))
         );
