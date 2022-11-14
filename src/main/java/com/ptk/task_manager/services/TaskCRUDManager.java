@@ -21,8 +21,10 @@ public class TaskCRUDManager {
         this.taskRepository = taskRepository;
     }
 
-    public void create(TaskDto taskDto, User user) {
-        taskRepository.save(taskFrom(taskDto, user));
+    public long create(TaskDto taskDto, User user) {
+        Task task = taskFrom(taskDto, user);
+        taskRepository.save(task);
+        return task.getId();
     }
 
     public List<TaskDto> list(String username) {
@@ -38,19 +40,20 @@ public class TaskCRUDManager {
         if (!task.isPresent() || !task.get().getOwnerUsername().equals(username))
             throw new TaskNotFoundException();
 
+        // todo: move dto conversions to controller
         return taskDtoFrom(task.get());
     }
 
     public void update(TaskDto taskDto, String username) {
-        Optional<Task> task = taskRepository.findById(taskDto.id);
+        Optional<Task> task = taskRepository.findById(taskDto.getId());
 
         if (!task.isPresent() || !task.get().getOwnerUsername().equals(username))
             throw new TaskNotFoundException();
 
         // todo: create a mapper
-        task.get().setLabel(taskDto.label);
-        task.get().setDescription(taskDto.description);
-        task.get().setDone(taskDto.done);
+        task.get().setLabel(taskDto.getLabel());
+        task.get().setDescription(taskDto.getDescription());
+        task.get().setDone(taskDto.getDone());
 
         taskRepository.save(task.get());
     }
@@ -75,8 +78,8 @@ public class TaskCRUDManager {
 
     // todo: create mapper to user and userdetails
     private Task taskFrom(TaskDto taskDto, User owner) {
-        return new Task(taskDto.id, taskDto.label, taskDto.description,
-                taskDto.done, owner);
+        return new Task(taskDto.getId(), taskDto.getLabel(), taskDto.getDescription(),
+                taskDto.getDone(), owner);
     }
 
     // todo: create a mapper
@@ -85,6 +88,6 @@ public class TaskCRUDManager {
                 task.getId(),
                 task.getLabel(),
                 task.getDescription(),
-                task.isDone());
+                String.valueOf(task.isDone()));
     }
 }
