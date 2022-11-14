@@ -1,6 +1,8 @@
 package com.ptk.task_manager.dtos;
 
+import javax.validation.constraints.NotBlank;
+
 public class UserDto {
-    public String username;
-    public String password;
+    @NotBlank public String username;
+    @NotBlank public String password;
 }

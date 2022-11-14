@@ -19,12 +19,6 @@ public class Task {
 
     public Task() {}
 
-    public Task(String label) {
-        this.label = label;
-        description = "";
-        done = false;
-    }
-
     public Task(long id, String label, String description, boolean done, User owner) {
         this.id = id;
         this.label = label;

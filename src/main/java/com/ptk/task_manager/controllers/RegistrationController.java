@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class RegistrationController {
@@ -21,7 +23,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public void register(@Valid @RequestBody UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        // todo: check if user already exists
         userRepository.save(
                 new User(userDto.username, bCryptPasswordEncoder.encode(userDto.password))
         );
