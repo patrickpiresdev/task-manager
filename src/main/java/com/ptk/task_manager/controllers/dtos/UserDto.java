@@ -1,4 +1,4 @@
-package com.ptk.task_manager.dtos;
+package com.ptk.task_manager.controllers.dtos;
 
 import javax.validation.constraints.NotBlank;
 

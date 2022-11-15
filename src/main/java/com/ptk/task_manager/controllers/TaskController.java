@@ -99,9 +99,9 @@ public class TaskController {
     }
 
     @PutMapping("/{id}/complete")
-    public ResponseEntity<Object> complete(@PathVariable long id) {
+    public ResponseEntity<Object> complete(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            taskCrudManager.complete(id);
+            taskCrudManager.complete(id, userDetails.getUsername());
             return ResponseEntity.ok().build();
         } catch (TaskNotFoundException ex) {
             System.out.println(ex.getMessage());

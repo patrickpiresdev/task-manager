@@ -56,4 +56,12 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)) return false;
+        if (obj == this) return true;
+        User other = (User) obj;
+        return other.username.equals(username) && other.password.equals(password);
+    }
 }

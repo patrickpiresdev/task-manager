@@ -27,10 +27,10 @@ public class TaskCRUDManager {
         return taskRepository.findAllByOwner_username(username);
     }
 
-    public Task findTask(long id, String username) {
+    public Task findTask(long id, String ownerUsername) {
         Optional<Task> task = taskRepository.findById(id);
 
-        if (!task.isPresent() || !task.get().getOwnerUsername().equals(username))
+        if (!task.isPresent() || !task.get().getOwnerUsername().equals(ownerUsername))
             throw new TaskNotFoundException();
 
         return task.get();
@@ -49,19 +49,20 @@ public class TaskCRUDManager {
         taskRepository.save(taskToUpdate.get());
     }
 
-    public void delete(long id, String username) {
+    public void delete(long id, String ownerUsername) {
         Optional<Task> task = taskRepository.findById(id);
 
-        if (!task.isPresent() || !task.get().getOwnerUsername().equals(username))
+        if (!task.isPresent() || !task.get().getOwnerUsername().equals(ownerUsername))
             throw new TaskNotFoundException();
 
         taskRepository.deleteById(id);
     }
 
-    public void complete(long id) {
+    public void complete(long id, String ownerUsername) {
         Optional<Task> task = taskRepository.findById(id);
 
-        if (!task.isPresent()) throw new TaskNotFoundException();
+        if (!task.isPresent() || !task.get().getOwnerUsername().equals(ownerUsername))
+            throw new TaskNotFoundException();
 
         task.get().complete();
         taskRepository.save(task.get());

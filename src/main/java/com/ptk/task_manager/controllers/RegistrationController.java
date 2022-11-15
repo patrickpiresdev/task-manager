@@ -1,6 +1,6 @@
 package com.ptk.task_manager.controllers;
 
-import com.ptk.task_manager.dtos.UserDto;
+import com.ptk.task_manager.controllers.dtos.UserDto;
 import com.ptk.task_manager.entities.User;
 import com.ptk.task_manager.exceptions.UsernameAlreadyTakenException;
 import com.ptk.task_manager.repositories.UserRepository;

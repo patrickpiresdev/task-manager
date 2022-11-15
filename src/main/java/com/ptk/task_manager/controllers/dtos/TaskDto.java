@@ -51,4 +51,15 @@ public class TaskDto {
     public boolean isDone() {
         return Boolean.parseBoolean(done);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskDto taskDto = (TaskDto) o;
+        return id == taskDto.id &&
+                label.equals(taskDto.label) &&
+                description.equals(taskDto.description) &&
+                done.equals(taskDto.done);
+    }
 }

@@ -65,4 +65,16 @@ public class Task {
     public String getOwnerUsername() {
         return this.owner.getUsername();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Task)) return false;
+        if (o == this) return true;
+        Task other = (Task) o;
+        return id == other.id &&
+                label.equals(other.label) &&
+                description.equals(other.description) &&
+                done == other.done &&
+                owner.equals(other.owner);
+    }
 }
