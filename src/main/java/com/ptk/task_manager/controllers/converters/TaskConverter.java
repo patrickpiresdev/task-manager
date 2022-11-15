@@ -1,4 +1,4 @@
-package com.ptk.task_manager.controllers.mappers;
+package com.ptk.task_manager.controllers.converters;
 
 import com.ptk.task_manager.controllers.dtos.TaskDto;
 import com.ptk.task_manager.entities.Task;

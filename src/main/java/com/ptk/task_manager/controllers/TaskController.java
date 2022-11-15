@@ -1,7 +1,7 @@
 package com.ptk.task_manager.controllers;
 
+import com.ptk.task_manager.controllers.converters.TaskConverter;
 import com.ptk.task_manager.controllers.dtos.TaskDto;
-import com.ptk.task_manager.controllers.mappers.TaskConverter;
 import com.ptk.task_manager.entities.Task;
 import com.ptk.task_manager.entities.User;
 import com.ptk.task_manager.exceptions.TaskNotFoundException;

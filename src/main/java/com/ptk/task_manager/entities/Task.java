@@ -1,7 +1,5 @@
 package com.ptk.task_manager.entities;
 
-import com.ptk.task_manager.controllers.dtos.TaskDto;
-
 import javax.persistence.*;
 
 @Entity
