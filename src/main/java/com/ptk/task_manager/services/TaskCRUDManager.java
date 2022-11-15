@@ -1,16 +1,13 @@
 package com.ptk.task_manager.services;
 
-import com.ptk.task_manager.dtos.TaskDto;
 import com.ptk.task_manager.entities.Task;
-import com.ptk.task_manager.entities.User;
 import com.ptk.task_manager.exceptions.TaskNotFoundException;
 import com.ptk.task_manager.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskCRUDManager {
@@ -21,41 +18,35 @@ public class TaskCRUDManager {
         this.taskRepository = taskRepository;
     }
 
-    public long create(TaskDto taskDto, User user) {
-        Task task = taskFrom(taskDto, user);
+    public long create(Task task) {
         taskRepository.save(task);
         return task.getId();
     }
 
-    public List<TaskDto> list(String username) {
-        return taskRepository.findAllByOwner_username(username)
-                .stream()
-                .map(this::taskDtoFrom)
-                .collect(Collectors.toList());
+    public Collection<Task> list(String username) {
+        return taskRepository.findAllByOwner_username(username);
     }
 
-    public TaskDto findTask(long id, String username) {
+    public Task findTask(long id, String username) {
         Optional<Task> task = taskRepository.findById(id);
 
         if (!task.isPresent() || !task.get().getOwnerUsername().equals(username))
             throw new TaskNotFoundException();
 
-        // todo: move dto conversions to controller
-        return taskDtoFrom(task.get());
+        return task.get();
     }
 
-    public void update(TaskDto taskDto, String username) {
-        Optional<Task> task = taskRepository.findById(taskDto.getId());
+    public void update(Task task) {
+        Optional<Task> taskToUpdate = taskRepository.findById(task.getId());
 
-        if (!task.isPresent() || !task.get().getOwnerUsername().equals(username))
+        if (!taskToUpdate.isPresent() || !taskToUpdate.get().getOwnerUsername().equals(task.getOwnerUsername()))
             throw new TaskNotFoundException();
 
-        // todo: create a mapper
-        task.get().setLabel(taskDto.getLabel());
-        task.get().setDescription(taskDto.getDescription());
-        task.get().setDone(taskDto.getDone());
+        taskToUpdate.get().setLabel(task.getLabel());
+        taskToUpdate.get().setDescription(task.getDescription());
+        taskToUpdate.get().setDone(task.isDone());
 
-        taskRepository.save(task.get());
+        taskRepository.save(taskToUpdate.get());
     }
 
     public void delete(long id, String username) {
@@ -74,20 +65,5 @@ public class TaskCRUDManager {
 
         task.get().complete();
         taskRepository.save(task.get());
-    }
-
-    // todo: create mapper to user and userdetails
-    private Task taskFrom(TaskDto taskDto, User owner) {
-        return new Task(taskDto.getId(), taskDto.getLabel(), taskDto.getDescription(),
-                taskDto.getDone(), owner);
-    }
-
-    // todo: create a mapper
-    private TaskDto taskDtoFrom(Task task) {
-        return new TaskDto(
-                task.getId(),
-                task.getLabel(),
-                task.getDescription(),
-                String.valueOf(task.isDone()));
     }
 }

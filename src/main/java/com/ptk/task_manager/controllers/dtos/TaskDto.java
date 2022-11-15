@@ -1,4 +1,4 @@
-package com.ptk.task_manager.dtos;
+package com.ptk.task_manager.controllers.dtos;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -48,7 +48,7 @@ public class TaskDto {
         this.done = done;
     }
 
-    public boolean getDone() {
+    public boolean isDone() {
         return Boolean.parseBoolean(done);
     }
 }

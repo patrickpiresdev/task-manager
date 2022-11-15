@@ -1,5 +1,7 @@
 package com.ptk.task_manager.entities;
 
+import com.ptk.task_manager.controllers.dtos.TaskDto;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,14 +19,11 @@ public class Task {
     @JoinColumn(name = "owner_username")
     private User owner;
 
-    public Task() {}
-
-    public Task(long id, String label, String description, boolean done, User owner) {
+    public Task(long id, String label, String description, boolean done) {
         this.id = id;
         this.label = label;
         this.description = description;
         this.done = done;
-        this.owner = owner;
     }
 
     public long getId() {
@@ -57,6 +56,10 @@ public class Task {
 
     public void complete() {
         done = true;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public String getOwnerUsername() {
