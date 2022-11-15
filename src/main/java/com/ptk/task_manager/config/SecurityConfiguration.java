@@ -29,12 +29,6 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    /*@Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                .antMatchers("/h2-console/**");
-    }*/
-
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, UserDetailsService userDetailsService,
                                     BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {

@@ -25,7 +25,7 @@ public class RegistrationController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<Object> register(@Valid @RequestBody UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
         try {
             registerUser(userDto, bCryptPasswordEncoder);
