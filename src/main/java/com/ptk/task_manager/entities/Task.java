@@ -17,6 +17,8 @@ public class Task {
     @JoinColumn(name = "owner_username")
     private User owner;
 
+    public Task() {}
+
     public Task(long id, String label, String description, boolean done) {
         this.id = id;
         this.label = label;

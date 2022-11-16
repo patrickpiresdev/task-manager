@@ -18,7 +18,7 @@ public class SecurityConfiguration {
             .headers().frameOptions().disable()
             .and()
             .authorizeRequests()
-                .mvcMatchers("/users/register").permitAll()
+                .mvcMatchers("/users").permitAll()
                 .anyRequest().authenticated()
             .and()
             .httpBasic()
